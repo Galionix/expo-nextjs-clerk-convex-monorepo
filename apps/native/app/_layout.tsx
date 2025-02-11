@@ -1,48 +1,13 @@
-// import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-// import { useFonts } from 'expo-font';
-// import { Stack } from 'expo-router';
-// import * as SplashScreen from 'expo-splash-screen';
-// import { StatusBar } from 'expo-status-bar';
-// import { useEffect } from 'react';
-// import 'react-native-reanimated';
-
-// import { useColorScheme } from '@/hooks/useColorScheme';
-
-// // Prevent the splash screen from auto-hiding before asset loading is complete.
-// SplashScreen.preventAutoHideAsync();
-
-// export default function RootLayout() {
-//   const colorScheme = useColorScheme();
-//   const [loaded] = useFonts({
-//     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-//   });
-
-//   useEffect(() => {
-//     if (loaded) {
-//       SplashScreen.hideAsync();
-//     }
-//   }, [loaded]);
-
-//   if (!loaded) {
-//     return null;
-//   }
-
-//   return (
-//     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-//       <Stack>
-//         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-//         <Stack.Screen name="+not-found" />
-//       </Stack>
-//       <StatusBar style="auto" />
-//     </ThemeProvider>
-//   );
-// }
-
+import { PaperProvider } from "react-native-paper";
 import { Stack } from "expo-router";
-import { View, StatusBar, Platform } from "react-native";
+import { View, StatusBar, Platform, useColorScheme } from "react-native";
 import { useFonts } from "expo-font";
 import { LogBox } from "react-native";
-import ConvexClientProvider from '@/constants/ConvexClientProvider';
+import ConvexClientProvider from "@/constants/ConvexClientProvider";
+import { darkTheme, lightTheme } from "../constants/theme";
+import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
+import { StyleSheet } from "react-native";
+import { Surface } from "@/components/ui/Surface";
 
 export default function RootLayout() {
   // Отключаем логи Expo (как в старом App.tsx)
@@ -62,28 +27,47 @@ export default function RootLayout() {
     MRegular: require("../assets/fonts/Montserrat-Regular.ttf"),
     MLight: require("../assets/fonts/Montserrat-Light.ttf"),
   });
+  const colorScheme = useColorScheme();
+  console.log("colorScheme: ", colorScheme);
+  const { theme } = useMaterial3Theme();
 
+  const paperTheme =
+    colorScheme === "dark"
+      ? { ...darkTheme, colors: theme.dark }
+      : { ...lightTheme, colors: theme.light };
   if (!loaded) {
     return null;
   }
 
-  const STATUS_BAR_HEIGHT = Platform.OS === "ios" ? 50 : StatusBar.currentHeight;
+  const STATUS_BAR_HEIGHT =
+    Platform.OS === "ios" ? 50 : StatusBar.currentHeight;
 
   return (
     <ConvexClientProvider>
-      <View style={{ flex: 1 }}>
-        {/* Статус-бар */}
-        <View style={{ height: STATUS_BAR_HEIGHT, backgroundColor: "#0D87E1" }}>
-          <StatusBar translucent backgroundColor={"#0D87E1"} barStyle="light-content" />
-        </View>
+      <PaperProvider theme={paperTheme}>
+        <Surface>
+          {/* Статус-бар */}
+          <View
+            style={{
+              height: STATUS_BAR_HEIGHT,
+              backgroundColor: paperTheme.colors.background,
+            }}
+          >
+            <StatusBar
+              translucent
+              backgroundColor={paperTheme.colors.background}
+              barStyle="light-content"
+            />
+          </View>
 
-        {/* Expo Router автоматически подключит роутинг */}
-        {/* <Stack /> */}
-        <Stack screenOptions={{ headerShown: false }} />
-        {/* <Stack>
+          {/* Expo Router автоматически подключит роутинг */}
+          {/* <Stack /> */}
+          <Stack screenOptions={{ headerShown: false }} />
+          {/* <Stack>
           <Stack.Screen name="notesDashboard" options={{ headerShown: false }} />
-        </Stack> */}
-      </View>
+          </Stack> */}
+        </Surface>
+      </PaperProvider>
     </ConvexClientProvider>
   );
 }
