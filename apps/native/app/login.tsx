@@ -43,7 +43,6 @@ const LoginScreen = () => {
     strategy: "oauth_google",
   });
   const { startOAuthFlow: startApple } = useOAuth({ strategy: "oauth_apple" });
-
   useWarmUpBrowser();
 
   useEffect(() => {
@@ -108,7 +107,7 @@ const LoginScreen = () => {
         <View style={styles.signupContainer}>
           <P>Don’t have an account? </P>
           <P
-            onPress={() => router.push("/register")}
+            onPress={() => router.push("/(auth)/sign-up")}
             highlight
           >
             Sign up here.

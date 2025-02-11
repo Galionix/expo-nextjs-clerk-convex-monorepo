@@ -20,7 +20,7 @@ import { H1, P } from "@/components/ui/Text";
 import { Surface } from "@/components/ui/Surface";
 import { Divider, TextInput } from "react-native-paper";
 import { isAndroid } from "@/constants/deviceInfo";
-
+import { SignIn } from "@clerk/clerk-expo/web";
 export const useWarmUpBrowser = () => {
   useEffect(() => {
     // Preloads the browser for Android devices to reduce authentication load time
@@ -123,11 +123,10 @@ const LoginScreen = () => {
               paddingRight: "2%",
             }}
             label="Password"
-                      secureTextEntry={secureTextEntry}
-
+            secureTextEntry={secureTextEntry}
             right={
-                <TextInput.Icon
-                    icon="eye"
+              <TextInput.Icon
+                icon="eye"
                 // name="eye"
                 onPress={() => {
                   setSecureTextEntry(!secureTextEntry);
@@ -137,6 +136,7 @@ const LoginScreen = () => {
             }
           />
         </View>
+        {/* <SignIn /> */}
         <View style={styles.signupContainer}>
           <P>Don’t have an account? </P>
           <P onPress={() => router.push("/register")} highlight>
