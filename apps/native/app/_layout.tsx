@@ -12,6 +12,7 @@ import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
 import { tokenCache } from "@/cache";
 import { P } from '@/components/ui/Text';
 import { myColor } from '@packages/ui';
+// import { myColor } from '@packages/ui';
 export default function RootLayout() {
   // Отключаем логи Expo (как в старом App.tsx)
   // LogBox.ignoreLogs(["Warning: ..."]);

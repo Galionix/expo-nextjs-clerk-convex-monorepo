@@ -6,12 +6,17 @@
   "types": "dist/index.d.ts",
   "module": "esnext",
   "scripts": {
+    "dev": "tsc --watch",
     "build": "tsc"
   },
   "exports": {
     ".": {
-      "types": "./src/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./utilityColors": {
+      "import": "./dist/constants/theme.js",
+      "types": "./dist/constants/theme.d.ts"
     }
   },
   "devDependencies": {

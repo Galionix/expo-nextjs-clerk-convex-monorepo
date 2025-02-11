@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { utilityColors } from '../../packages/ui/dist/index';
 
 const config: Config = {
   content: [
@@ -19,6 +20,7 @@ const config: Config = {
     extend: {
       colors: {
         primary: "#0D87E1",
+        ...utilityColors
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

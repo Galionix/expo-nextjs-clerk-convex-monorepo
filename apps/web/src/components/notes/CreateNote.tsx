@@ -6,6 +6,7 @@ import Image from "next/image";
 import Checkbox from "./Checkbox";
 import { api } from "@packages/backend/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
+import { Button } from "../common/button";
 
 export default function CreateNote() {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,26 @@ export default function CreateNote() {
   return (
     <>
       <div className="flex justify-center items-center">
-        <button
+        <Button
+          onClick={() => setOpen(true)}
+          variant="primary"
+          className="flex gap-4 justify-center items-center text-center"
+          size="lg"
+        >
+          <Image
+            src={"/images/Add.png"}
+            width={40}
+            height={40}
+            alt="search"
+            className="float-right sm:w-[40px] sm:h-[40px] w-6 h-6"
+          />
+          <>
+            <span className="not-italic font-medium">
+              New note
+            </span>
+          </>
+        </Button>
+        {/* <button
           onClick={() => setOpen(true)}
           className="button text-[#EBECEF] flex gap-4 justify-center items-center text-center px-8 sm:px-16 py-2"
         >
@@ -45,7 +65,7 @@ export default function CreateNote() {
             {" "}
             New Note
           </span>
-        </button>
+        </button> */}
       </div>
 
       <Transition.Root show={open} as={Fragment}>
