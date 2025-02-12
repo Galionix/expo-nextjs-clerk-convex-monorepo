@@ -11,7 +11,6 @@ import { Surface } from "@/components/ui/Surface";
 import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
 import { tokenCache } from "@/cache";
 import { P } from '@/components/ui/Text';
-import { myColor } from '@packages/ui';
 // import { myColor } from '@packages/ui';
 export default function RootLayout() {
   // Отключаем логи Expo (как в старом App.tsx)
@@ -65,8 +64,6 @@ export default function RootLayout() {
                 barStyle="light-content"
               />
             </View>
-              <P>{ myColor}</P>
-
             {/* Expo Router автоматически подключит роутинг */}
             {/* <Stack /> */}
             <Stack screenOptions={{ headerShown: false }} />

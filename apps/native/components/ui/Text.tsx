@@ -34,7 +34,7 @@ export const P = ({
 
 const styles = StyleSheet.create({
     highlight: {
-        color: lightTheme.colors.highlight,
+        color: lightTheme.colors.accent,
         fontFamily: "SemiBold",
       },
 });

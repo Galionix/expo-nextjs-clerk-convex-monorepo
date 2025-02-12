@@ -20,7 +20,7 @@ const config: Config = {
     extend: {
       colors: {
         primary: "#0D87E1",
-        ...utilityColors
+        ...utilityColors,
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
