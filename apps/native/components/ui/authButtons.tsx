@@ -5,11 +5,14 @@ import { useWarmUpBrowser } from "@/hooks/warmupBrowser";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { Button } from "./Button";
+import { useTranslation } from 'react-i18next';
 
 WebBrowser.maybeCompleteAuthSession();
 
 export const AuthButtons = () => {
   const auth = useAuth();
+  const { t, i18n } = useTranslation();
+
   const [authState, setAuthState] = React.useState({
     hello: "world",
   });
@@ -64,10 +67,10 @@ export const AuthButtons = () => {
   return (
     <>
       <Button onPress={() => onPress("google")} icon="google">
-        Continue with Google
+      { t('common.continueWithGoogle')}
       </Button>
       <Button onPress={() => onPress("apple")} icon="apple">
-        Continue with Apple
+        { t('common.continueWithApple')}
       </Button>
     </>
   );

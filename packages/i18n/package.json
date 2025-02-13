@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "translate": "node scripts/translate.js"
+    "translate": "node scripts/translate.js",
+    "translate:build": "yarn translate && yarn build"
   }
 }

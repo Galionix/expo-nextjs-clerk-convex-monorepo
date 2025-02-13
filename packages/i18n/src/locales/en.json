@@ -2,6 +2,7 @@
   "common": {
     "welcome": "Welcome",
     "logout": "Logout",
-    "continueWithApple": "Continue with Apple"
+    "continueWithApple": "Continue with Apple",
+    "continueWithGoogle": "Continue with Google"
   }
 }
