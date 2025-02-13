@@ -1,6 +1,7 @@
 {
-    "common": {
-      "welcome": "Welcome",
-      "logout": "Logout"
-    }
+  "common": {
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "continueWithApple": "Continue with Apple"
   }
+}

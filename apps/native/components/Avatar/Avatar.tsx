@@ -3,6 +3,7 @@ import { StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
 import { useUser, useAuth } from "@clerk/clerk-expo";
 import { Avatar as PaperAvatar, Menu, Button } from "react-native-paper";
 import { tokenCache } from "@/cache";
+import { useTranslation } from 'react-i18next';
 
 type AvatarProps = {
   menuStyle?: StyleProp<ViewStyle>;
@@ -12,9 +13,10 @@ const defaultMenuStyle = { transform: [{ translateY: 40 }] };
 export const Avatar = ({ menuStyle = defaultMenuStyle }: AvatarProps) => {
   const auth = useAuth();
   const [visible, setVisible] = useState(false);
-  const { signOut } = useAuth();
+//   const { signOut } = useAuth();
   const user = useUser();
     const imageUrl = user?.user?.imageUrl;
+    const { t } = useTranslation();
 
     const onExit = () => {
         // tokenCache && "clearToken" in tokenCache &&
@@ -44,7 +46,7 @@ export const Avatar = ({ menuStyle = defaultMenuStyle }: AvatarProps) => {
           onPress={() => console.log("Открываем настройки")}
           title="Настройки"
         />
-        <Menu.Item key="exit" onPress={() => signOut()} title="Выход" />
+        <Menu.Item key="exit" onPress={() => onExit()} title={t('user.signOut')} />
       </Menu>
     </View>
   );

@@ -1,6 +1,7 @@
 {
-    "common": {
-      "welcome": "Ласкаво просимо",
-      "logout": "Вийти"
-    }
+  "common": {
+    "welcome": "Ласкаво просимо",
+    "logout": "Вийти",
+    "continueWithApple": "Продовжуйте з Apple"
   }
+}

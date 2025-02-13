@@ -10,9 +10,13 @@
     }
   },
   "dependencies": {
-    "i18next": "^23.6.0"
+    "@vitalets/google-translate-api": "^9.2.1",
+    "i18next": "^23.6.0",
+    "jsonfile": "^6.1.0",
+    "readline-sync": "^1.4.10"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "translate": "node scripts/translate.js"
   }
 }
