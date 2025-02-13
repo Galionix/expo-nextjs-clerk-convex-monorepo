@@ -8,7 +8,12 @@ import {
   ScrollView,
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
-import { StartSSOFlowParams, useOAuth, useSSO } from "@clerk/clerk-expo";
+import {
+  StartSSOFlowParams,
+  useOAuth,
+  useSSO,
+  useUser,
+} from "@clerk/clerk-expo";
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo"; // Используем Clerk для проверки авторизации
@@ -20,44 +25,108 @@ import { H1, P } from "@/components/ui/Text";
 import { Surface } from "@/components/ui/Surface";
 import { AuthButtons } from "@/components/ui/authButtons";
 import { useTheme } from "react-native-paper";
-import { useToast } from '@/components/Toast/Toast';
+import { useToast } from "@/components/Toast/Toast";
 import { useTranslation } from "react-i18next";
+import { api } from "@packages/backend/convex/_generated/api";
+import { useQuery, useAction, useMutation } from "convex/react";
+import { lemonSqueezyStoreId } from "@packages/ui";
+import { useRegisterCustomer } from '@/hooks/registerCustomer';
 
 const LoginScreen = () => {
   const toaster = useToast();
-
+  const user = useUser();
   const auth = useAuth();
-  useEffect(() => {
-    if (auth.sessionId) {
-      router.replace("/notesDashboard");
-    }
-  }, [auth, auth.sessionId]);
+  console.log("auth: ", auth);
+  const createLemonUser = useAction(api.lemonsqueezy.createLemonUser);
+  const existingLemonId = useQuery(api.lemonsqueezy.getLemonId);
+  console.log("existingLemonId: ", existingLemonId);
+  const writeLemonToDb = useMutation(api.lemonsqueezy.writeLemonToDb);
+  // const create = async (data) => createCustomer(data)
+  // useEffect(() => {
+  //   if (auth.sessionId && user && existingLemonId) {
+  //     router.replace("/notesDashboard");
+  //   }
+  //   if (auth.sessionId && user && !existingLemonId) {
+  //     // router.replace("/notesDashboard");
+  //     const email = user.user?.primaryEmailAddress?.emailAddress;
+  //     const name = user.user?.fullName;
+  //     if (!email) {
+  //       toaster.show({
+  //         type: "error",
+  //         message:
+  //           "Cant find your email by user.user?.primaryEmailAddress?.emailAddress",
+  //       });
 
-  useEffect(() => {
-    toaster.show({
-      message: "Login successful",
+  //       return;
+  //     }
+  //     if (!name) {
+  //       toaster.show({
+  //         type: "error",
+  //         message: "Cant find your name by user.user?.fullName",
+  //       });
+  //       return;
+  //     }
+  //     const flow = async () => {
+  //       try {
+  //         const lemonId = await createLemonUser({
+  //           storeId: lemonSqueezyStoreId,
+  //           email,
+  //           name,
+  //         });
+  //         console.log("created lemonId: ", lemonId);
+  //         if (lemonId) {
+  //           const writeLemonToDbRes = await writeLemonToDb({
+  //             lemonId,
+  //           });
+  //           console.log("writeLemonToDbRes: ", writeLemonToDbRes);
+  //         }
+  //       } catch (e) {
+  //         console.log(e);
+  //         toaster.show({
+  //           type: "error",
+  //           message: "Cannot create customer.",
+  //         });
+  //       }
+  //     };
+  //     flow();
 
-    });
-  }, []);
+  //     console.log("email:", user.user?.primaryEmailAddress?.emailAddress);
+  //     console.log("name:", user.user?.fullName);
+  //   }
+
+  // }, [user, auth, auth.sessionId, existingLemonId]);
+  useRegisterCustomer();
   const { t } = useTranslation();
   return (
     <Surface>
       <View style={styles.root}>
         <View style={styles.viewStyles}>
           <H1>{t("common.welcome")}</H1>
-          <H1>{t('auth.logInToYourAccount')}</H1>
+          <H1>{t("auth.logInToYourAccount")}</H1>
           <AuthButtons />
         </View>
         <View style={styles.signupContainer}>
           <P
-                        style={{
-                          maxWidth: 200
-                        }}
-          >{t('auth.signUpUsingEmail')}</P>
+            style={{
+              maxWidth: 200,
+            }}
+          >
+            {t("auth.signUpUsingEmail")}
+          </P>
+          <P onPress={() => router.push("/(auth)/sign-up")} highlight>
+            {t("auth.signUpHere")}
+          </P>
+        </View>
+        <View style={styles.signupContainer}>
           <P
-
-            onPress={() => router.push("/(auth)/sign-up")} highlight>
-          {t('auth.signUpHere')}
+            style={{
+              maxWidth: 200,
+            }}
+          >
+            {t("auth.signInUsingEmail")}
+          </P>
+          <P onPress={() => router.push("/(auth)/sign-in")} highlight>
+            {t("auth.signInHere")}
           </P>
         </View>
       </View>
@@ -85,8 +154,8 @@ const styles = StyleSheet.create({
   signupContainer: {
     marginTop: "auto",
     flexDirection: "column",
-    alignItems: 'center',
-    textAlign: 'center'
+    alignItems: "center",
+    textAlign: "center",
   },
 });
 

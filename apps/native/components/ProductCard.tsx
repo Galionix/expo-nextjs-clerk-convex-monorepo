@@ -49,7 +49,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )}
         {!!subData && subData.attributes.cancelled && (
           <Text variant="bodySmall" style={styles.activeText}>
-            {`❌ ${t("payment.cancelled")} ${t('payment.validUntil')} ${useFormattedDate(subData.attributes.ends_at)}`}
+            {`❌ ${t("payment.cancelled")}. ${t('payment.validUntil')} ${useFormattedDate(subData.attributes.ends_at)}`}
           </Text>
         )}
 

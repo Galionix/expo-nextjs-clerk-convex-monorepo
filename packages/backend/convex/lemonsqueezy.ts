@@ -1,23 +1,32 @@
-import { v } from 'convex/values';
-import { action, query } from "./_generated/server";
+import { v } from "convex/values";
+import { action, query, mutation, internalAction } from "./_generated/server";
+import { internal, api } from "./_generated/api";
+
 import {
-    lemonSqueezySetup, getAuthenticatedUser,
-    listProducts, listSubscriptions, cancelSubscription
+  lemonSqueezySetup,
+  getAuthenticatedUser,
+  listProducts,
+  listSubscriptions,
+  cancelSubscription,
+  createCustomer,
+  type NewCustomer,
+  getCustomer,
 } from "@lemonsqueezy/lemonsqueezy.js";
+import { getUserId } from "./notes";
 // import { v } from "convex/values";
 export const lemonsqueezyKeySet = query({
-    args: {},
-    handler: async () => {
-      return !!process.env.LEMON_SQUEEZY_API_KEY;
-    },
+  args: {},
+  handler: async () => {
+    return !!process.env.LEMON_SQUEEZY_API_KEY;
+  },
 });
 
 export const getLemonUser = action(async () => {
-    const result = lemonSqueezySetup({
-        apiKey: process.env.LEMON_SQUEEZY_API_KEY,
-        onError: (error) => console.error("Lemon Squeezy API Error:", error),
-    });
-    console.log('result: ', result);
+  const result = lemonSqueezySetup({
+    apiKey: process.env.LEMON_SQUEEZY_API_KEY,
+    onError: (error) => console.error("Lemon Squeezy API Error:", error),
+  });
+  console.log("result: ", result);
   try {
     const { data, error } = await getAuthenticatedUser();
 
@@ -34,25 +43,25 @@ export const getLemonUser = action(async () => {
   }
 });
 
-export const getLemonProducts= action(async () => {
-    const result = lemonSqueezySetup({
-        apiKey: process.env.LEMON_SQUEEZY_API_KEY,
-        onError: (error) => console.error("Lemon Squeezy API Error:", error),
-    });
-    try {
-        const { data, error, statusCode } = await listProducts();
+export const getLemonProducts = action(async () => {
+  const result = lemonSqueezySetup({
+    apiKey: process.env.LEMON_SQUEEZY_API_KEY,
+    onError: (error) => console.error("Lemon Squeezy API Error:", error),
+  });
+  try {
+    const { data, error, statusCode } = await listProducts();
 
-        if (error) {
-          console.error("❌ Lemon Squeezy Products Error:", error.message);
-          throw new Error(error.message);
-        }
-
-        console.log(`✅ Lemon Squeezy Products (Status: ${statusCode}):`, data);
-        return data;
-      } catch (error) {
-        console.error("❌ Failed to fetch products from Lemon Squeezy:", error);
-        throw new Error("Failed to fetch products from Lemon Squeezy");
+    if (error) {
+      console.error("❌ Lemon Squeezy Products Error:", error.message);
+      throw new Error(error.message);
     }
+
+    console.log(`✅ Lemon Squeezy Products (Status: ${statusCode}):`, data);
+    return data;
+  } catch (error) {
+    console.error("❌ Failed to fetch products from Lemon Squeezy:", error);
+    throw new Error("Failed to fetch products from Lemon Squeezy");
+  }
 });
 
 // Настраиваем API
@@ -107,7 +116,6 @@ export const getLemonProducts= action(async () => {
 //         const { statusCode, error, data } = await getVariant(variantId);
 //         console.log('statusCode: ', statusCode);
 
-
 //         if (error) {
 //           console.error("❌ Lemon Squeezy Variant Error:", error.message);
 //           throw new Error(error.message);
@@ -123,49 +131,210 @@ export const getLemonProducts= action(async () => {
 //   });
 
 // TODO: check here active subscriptions
-export const getLemonSubscriptions= action(async () => {
-    const result = lemonSqueezySetup({
-        apiKey: process.env.LEMON_SQUEEZY_API_KEY,
-        onError: (error) => console.error("Lemon Squeezy API Error:", error),
-    });
-    try {
-        const { data, error, statusCode } = await listSubscriptions();
+export const getLemonSubscriptions = action(async () => {
+  const result = lemonSqueezySetup({
+    apiKey: process.env.LEMON_SQUEEZY_API_KEY,
+    onError: (error) => console.error("Lemon Squeezy API Error:", error),
+  });
+  try {
+    const { data, error, statusCode } = await listSubscriptions();
 
-        if (error) {
-          console.error("❌ Lemon Squeezy listSubscriptions Error:", error.message);
-          throw new Error(error.message);
-        }
-
-        console.log(`✅ Lemon Squeezy listSubscriptions (Status: ${statusCode}):`, data);
-        return data;
-      } catch (error) {
-        console.error("❌ Failed to fetch listSubscriptions from Lemon Squeezy:", error);
-        throw new Error("Failed to fetch listSubscriptions from Lemon Squeezy");
+    if (error) {
+      console.error("❌ Lemon Squeezy listSubscriptions Error:", error.message);
+      throw new Error(error.message);
     }
+
+    console.log(
+      `✅ Lemon Squeezy listSubscriptions (Status: ${statusCode}):`,
+      data,
+    );
+    return data;
+  } catch (error) {
+    console.error(
+      "❌ Failed to fetch listSubscriptions from Lemon Squeezy:",
+      error,
+    );
+    throw new Error("Failed to fetch listSubscriptions from Lemon Squeezy");
+  }
 });
 
-export const cancelLemonSubscription= action({
+export const cancelLemonSubscription = action({
+  args: {
+    subscriptionId: v.string(),
+  },
+  handler: async (ctx, { subscriptionId }) => {
+    const result = lemonSqueezySetup({
+      apiKey: process.env.LEMON_SQUEEZY_API_KEY,
+      onError: (error) => console.error("Lemon Squeezy API Error:", error),
+    });
+    try {
+      const { data, error, statusCode } =
+        await cancelSubscription(subscriptionId);
+
+      if (error) {
+        console.error(
+          "❌ Lemon Squeezy cancelSubscription Error:",
+          error.message,
+        );
+        throw new Error(error.message);
+      }
+
+      console.log(
+        `✅ Lemon Squeezy cancelSubscription (Status: ${statusCode}):`,
+        data,
+      );
+      return data;
+    } catch (error) {
+      console.error(
+        "❌ Failed to fetch cancelSubscription from Lemon Squeezy:",
+        error,
+      );
+      throw new Error("Failed to fetch cancelSubscription from Lemon Squeezy");
+    }
+  },
+});
+
+export const writeLemonToDb = mutation({
     args: {
-      subscriptionId: v.string()
+        lemonId: v.string()
     },
-    handler: async (ctx, { subscriptionId }) => {
-        const result = lemonSqueezySetup({
+    handler: async (ctx, { lemonId }) => {
+        const userId = await getUserId(ctx);
+        if (!userId) throw new Error("User not found");
+        const noteId = await ctx.db.insert("lemonUserId", { userId, lemonId });
+    }
+})
+
+export const createCustomerAction = action({
+  args: {
+    storeId: v.number(),
+    name: v.string(),
+    email: v.string(),
+  },
+  handler: async (ctx, { storeId, name, email }) => {
+    const userId = await getUserId(ctx);
+    if (!userId) throw new Error("no userid to create lemonSqueezy customer");
+    console.log("createCustomerAction = internalAction userId: ", userId);
+
+    lemonSqueezySetup({
+      apiKey: process.env.LEMON_SQUEEZY_API_KEY,
+      onError: (error) => console.error("Lemon Squeezy API Error:", error),
+    });
+    // const existingCustomer = await getCustomer()
+
+    try {
+      const { data, error, statusCode } = await createCustomer(storeId, {
+        name,
+        email,
+      });
+
+      if (error) {
+        console.error("❌ Lemon Squeezy createCustomer Error:", error.message);
+        throw new Error(error.message);
+      }
+
+      console.log(
+        `✅ Lemon Squeezy createCustomer (Status: ${statusCode}):`,
+        data,
+        );
+
+        await ctx.runMutation(api.lemonsqueezy.writeLemonToDb, { lemonId: data.data.id })
+        // ctx.runMutation(mutation)
+        //   return data.data.id;
+        // const userId = await getUserId(ctx);
+        if (!userId) throw new Error("User not found");
+        // const noteId = await ctx.db.insert("notes", { userId, title, content });
+    } catch (error) {
+      console.error(
+        "❌ Failed to fetch createCustomer from Lemon Squeezy:",
+        error,
+      );
+      // throw new Error("Failed to fetch createCustomer from Lemon Squeezy");
+    }
+  },
+});
+
+export const getLemonId = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getUserId(ctx);
+    if (!userId) return null;
+
+    const lemonUserId = await ctx.db
+      .query("lemonUserId")
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .collect();
+
+    return lemonUserId?.[0]?.lemonId
+  },
+});
+
+export const createLemonUser = action({
+  args: {
+    storeId: v.number(),
+    name: v.string(),
+    email: v.string(),
+  },
+  // handler: async (ctx, { storeId, name, email }) => {
+  handler: async (ctx, { storeId, name, email }) => {
+    //   const lemonId: string | undefined = (await ctx.runQuery(api.lemonsqueezy.getLemonId))?.[0]?.lemonId;
+    //   if(lemonId) return lemonId as string
+    // console.log("lemonId: ", lemonId);
+    //   if (!lemonId) {
+        //   console.log('no customer, scheduling creation...')
+          const userId = await getUserId(ctx);
+          if (!userId) throw new Error("no userid to create lemonSqueezy customer");
+        //   console.log("createCustomerAction = internalAction userId: ", userId);
+
+          lemonSqueezySetup({
             apiKey: process.env.LEMON_SQUEEZY_API_KEY,
             onError: (error) => console.error("Lemon Squeezy API Error:", error),
-        });
-        try {
-            const { data, error, statusCode } = await cancelSubscription(subscriptionId);
+          });
+          // const existingCustomer = await getCustomer()
+
+          try {
+            const { data, error, statusCode } = await createCustomer(storeId, {
+              name,
+              email,
+            });
 
             if (error) {
-              console.error("❌ Lemon Squeezy cancelSubscription Error:", error.message);
+              console.error("❌ Lemon Squeezy createCustomer Error:", error.message);
               throw new Error(error.message);
             }
 
-            console.log(`✅ Lemon Squeezy cancelSubscription (Status: ${statusCode}):`, data);
-            return data;
+            console.log(
+              `✅ Lemon Squeezy createCustomer (Status: ${statusCode}):`,
+              data,
+              );
+
+            //   await ctx.runMutation(api.lemonsqueezy.writeLemonToDb, { lemonId: data.data.id })
+              // ctx.runMutation(mutation)
+                // return data.data.id;
+              // const userId = await getUserId(ctx);
+            //   if (!userId) throw new Error("User not found");
+              // const noteId = await ctx.db.insert("notes", { userId, title, content });
+              return data.data.id as string
           } catch (error) {
-            console.error("❌ Failed to fetch cancelSubscription from Lemon Squeezy:", error);
-            throw new Error("Failed to fetch cancelSubscription from Lemon Squeezy");
-        }
-    },
+            console.error(
+              "❌ Failed to fetch createCustomer from Lemon Squeezy:",
+              error,
+            );
+            throw new Error("Failed to fetch createCustomer from Lemon Squeezy");
+          }
+        //   throw new Error('we could not create user')
+          //   ctx.scheduler.
+        //   const res = ctx.runAction()
+    //   await ctx.scheduler.runAfter(
+    //     0,
+    //     internal.lemonsqueezy.createCustomerAction,
+    //     {
+    //       email,
+    //       name,
+    //       storeId,
+    //     },
+    //   );
+    //   }
+    //   return lemonId
+  },
 });

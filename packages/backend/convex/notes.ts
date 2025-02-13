@@ -12,6 +12,7 @@ export const getNotes = query({
   args: {},
   handler: async (ctx) => {
     const userId = await getUserId(ctx);
+    console.log('getUserId userId: ', userId);
     if (!userId) return null;
 
     const notes = await ctx.db
@@ -68,3 +69,5 @@ export const deleteNote = mutation({
     await ctx.db.delete(args.noteId);
   },
 });
+
+

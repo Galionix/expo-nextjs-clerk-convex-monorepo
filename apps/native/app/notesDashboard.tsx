@@ -45,14 +45,14 @@ const NotesDashboardScreen = () => {
 
   // const fabStyle = { [animateFrom]: 16 };
   const user = useUser();
-  console.log("user: ", user);
+  // console.log("user: ", user);
   const imageUrl = user?.user?.imageUrl;
   const firstName = user?.user?.firstName;
 
   const allNotes = useQuery(api.notes.getNotes);
   const wtfProducts = useAction(api.lemonsqueezy.getLemonProducts);
-  console.log('wtfProducts: ', wtfProducts);
-  console.log("allNotes: ", allNotes);
+  // console.log('wtfProducts: ', wtfProducts);
+  // console.log("allNotes: ", allNotes);
   const [search, setSearch] = useState("");
 
   const finalNotes =

@@ -8,4 +8,8 @@ export default defineSchema({
     content: v.string(),
     summary: v.optional(v.string()),
   }),
+  lemonUserId: defineTable({
+    userId: v.string(),
+    lemonId: v.string()
+  })
 });

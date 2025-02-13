@@ -1,7 +1,11 @@
 import { useSignIn } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
-import { Text, TextInput, Button, View } from 'react-native'
+// import { Text, TextInput, Button, View } from 'react-native'
 import React from 'react'
+import { Surface } from '@/components/ui/Surface'
+import { useRegisterCustomer } from '@/hooks/registerCustomer'
+import { TextInput } from 'react-native-paper'
+import { Button } from '@/components/ui/Button'
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn()
@@ -9,7 +13,7 @@ export default function Page() {
 
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
-
+  useRegisterCustomer()
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
     if (!isLoaded) return
@@ -25,7 +29,7 @@ export default function Page() {
       // and redirect the user
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId })
-        router.replace('/')
+        // router.replace('/notesDashboard')
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
@@ -37,9 +41,10 @@ export default function Page() {
       console.error(JSON.stringify(err, null, 2))
     }
   }
+  const onBackPress = () => router.back()
 
   return (
-    <View>
+    <Surface>
       <TextInput
         autoCapitalize="none"
         value={emailAddress}
@@ -52,13 +57,14 @@ export default function Page() {
         secureTextEntry={true}
         onChangeText={(password) => setPassword(password)}
       />
-      <Button title="Sign in" onPress={onSignInPress} />
-      <View>
+      <Button onPress={onSignInPress} >Sign in</Button>
+      <Button onPress={onBackPress} >Back</Button>
+      {/* <View>
         <Text>Don't have an account?</Text>
         <Link href="/sign-up">
           <Text>Sign up</Text>
         </Link>
-      </View>
-    </View>
+      </View> */}
+    </Surface>
   )
 }

@@ -6,6 +6,8 @@ import { Surface } from "@/components/ui/Surface";
 import { P } from "@/components/ui/Text";
 import { TextInput } from "react-native-paper";
 import { Button } from "@/components/ui/Button";
+import { useRegisterCustomer } from '@/hooks/registerCustomer';
+import { useToast } from '@/components/Toast/Toast';
 
 
 
@@ -18,6 +20,8 @@ export default function SignUpScreen() {
   const [password, setPassword] = React.useState("");
   const [pendingVerification, setPendingVerification] = React.useState(false);
   const [code, setCode] = React.useState("");
+  useRegisterCustomer();
+  const toaster = useToast();
 
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
@@ -37,6 +41,10 @@ export default function SignUpScreen() {
       // and capture OTP code
       setPendingVerification(true);
     } catch (err) {
+      toaster.show({
+        type: 'error',
+        message: err.errors.map(e=>e.longMessage).join(', ')
+      })
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error(JSON.stringify(err, null, 2));
@@ -88,19 +96,25 @@ export default function SignUpScreen() {
       // and redirect the user
       if (signUpAttempt.status === "complete") {
         await setActive({ session: signUpAttempt.createdSessionId });
-        router.replace("/");
+        // router.replace("/");
       } else {
+
         // If the status is not complete, check why. User may need to
         // complete further steps.
         console.error(JSON.stringify(signUpAttempt, null, 2));
       }
     } catch (err) {
+      toaster.show({
+        type: 'error',
+        message: err.errors.map(e=>e.longMessage).join(', ')
+      })
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error(JSON.stringify(err, null, 2));
     }
   };
 
+  const onBackPress = () => setPendingVerification(false)
   if (pendingVerification) {
     return (
       <Surface>
@@ -111,6 +125,8 @@ export default function SignUpScreen() {
           onChangeText={(code) => setCode(code)}
         />
         <Button onPress={onVerifyPress}>Verify</Button>
+        <Button onPress={onBackPress}>Change email</Button>
+
       </Surface>
     );
   }
