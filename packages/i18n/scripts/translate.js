@@ -8,10 +8,43 @@ const localesPath = __dirname + "/../src/locales/";
 const languages = ["en", "ru", "uk"];
 
 // --- STEP 1: User input ---
-const keyPath = readline.question("Enter translation key (example: user.signOut): ");
+const section = readline.question("Enter translation section (example: user): ");
 const englishText = readline.question("Enter translation for English: ");
 
-// --- Function to set nested keys ("user.signOut" → { user: { signOut: "..." } }) ---
+// --- STEP 2: Generate unique key in camelCase ---
+function generateKey(text) {
+  return text
+    .replace(/[^a-zA-Z\s]/g, "") // Remove everything except letters and spaces
+    .split(" ")
+    .map((word, index) =>
+      index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    )
+    .join("")
+    .slice(0, 20); // Max 20 characters
+}
+
+const keyName = generateKey(englishText);
+const keyPath = `${section}.${keyName}`;
+
+// --- Highlight key in console ---
+//
+console.log("\n────────────────────────────────────────");
+console.log(`🔑  Generated key: \x1b[32m${keyPath}\x1b[0m`);
+console.log(`🔑  Translate with: \x1b[32m{t('${keyPath}')}\x1b[0m`);
+console.log("────────────────────────────────────────\n");
+
+// --- Function to check if key already exists ---
+function keyExists(obj, path) {
+  const keys = path.split(".");
+  let current = obj;
+  for (let i = 0; i < keys.length; i++) {
+    if (!current[keys[i]]) return false;
+    current = current[keys[i]];
+  }
+  return true;
+}
+
+// --- Function to set nested key ("user.signUpUsingEmail" → { user: { signUpUsingEmail: "..." } }) ---
 function setNestedKey(obj, path, value) {
   const keys = path.split(".");
   let current = obj;
@@ -22,7 +55,7 @@ function setNestedKey(obj, path, value) {
   current[keys[keys.length - 1]] = value;
 }
 
-// --- STEP 2: Update JSON files ---
+// --- STEP 3: Update JSON files ---
 async function updateTranslations() {
   for (const lang of languages) {
     const filePath = `${localesPath}${lang}.json`;
@@ -34,20 +67,9 @@ async function updateTranslations() {
     }
 
     // Check if key already exists
-    const keys = keyPath.split(".");
-    let current = translations;
-    let exists = true;
-    for (let i = 0; i < keys.length; i++) {
-      if (!current[keys[i]]) {
-        exists = false;
-        break;
-      }
-      current = current[keys[i]];
-    }
-
-    if (exists) {
-      console.log(`🔹 ${lang}.json already contains key "${keyPath}". Skipping.`);
-      continue;
+    if (keyExists(translations, keyPath)) {
+      console.log(`⚠️ ERROR: Key "\x1b[31m${keyPath}\x1b[0m" already exists in ${lang}.json. Skipping.`);
+      return; // Exit if key is already in use
     }
 
     // --- Translate text if language is not English ---

@@ -4,5 +4,11 @@
     "logout": "Выйти",
     "continueWithApple": "Продолжить с Apple",
     "continueWithGoogle": "Продолжить с Google"
+  },
+  "user": {
+    "signUpUsingEmail": "Зарегистрироваться с помощью электронной почты?"
+  },
+  "auth": {
+    "signUpHere": "Зарегистрируйтесь здесь."
   }
 }

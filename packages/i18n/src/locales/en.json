@@ -4,5 +4,11 @@
     "logout": "Logout",
     "continueWithApple": "Continue with Apple",
     "continueWithGoogle": "Continue with Google"
+  },
+  "user": {
+    "signUpUsingEmail": "Sign up using email?"
+  },
+  "auth": {
+    "signUpHere": "Sign up here."
   }
 }

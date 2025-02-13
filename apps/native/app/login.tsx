@@ -51,7 +51,7 @@ const LoginScreen = () => {
         <View style={styles.signupContainer}>
           <P>Sign up using email? </P>
           <P onPress={() => router.push("/(auth)/sign-up")} highlight>
-            Sign up here.
+          {t('auth.signUpHere')}
           </P>
         </View>
       </View>
