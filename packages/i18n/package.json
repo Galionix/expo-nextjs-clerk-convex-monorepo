@@ -1,0 +1,18 @@
+{
+  "name": "@packages/i18n",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "i18next": "^23.6.0"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}

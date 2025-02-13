@@ -1,4 +1,5 @@
 import { PaperProvider, useTheme } from "react-native-paper";
+import "intl-pluralrules"; // Полифилл для React Native
 import { Stack } from "expo-router";
 import { View, StatusBar, Platform, useColorScheme } from "react-native";
 import { useFonts } from "expo-font";
@@ -13,15 +14,16 @@ import {
   initialWindowMetrics,
   SafeAreaProvider,
 } from "react-native-safe-area-context";
-
+import "@packages/i18n"; // Глобальная инициализация
 import { P } from "@/components/ui/Text";
 import { ToastProvider } from '@/components/Toast/Toast';
+import { useTranslation } from "react-i18next";
 // import { myColor } from '@packages/ui';
 export default function RootLayout() {
   // Отключаем логи Expo (как в старом App.tsx)
   // LogBox.ignoreLogs(["Warning: ..."]);
   // LogBox.ignoreAllLogs();
-
+  const { t, i18n } = useTranslation();
   // Загружаем шрифты (из старого App.tsx)
   const [loaded] = useFonts({
     Bold: require("../assets/fonts/Inter-Bold.ttf"),

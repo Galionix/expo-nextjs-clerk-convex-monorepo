@@ -35,6 +35,7 @@
         }
       ]
     ],
+    "transpilePackages": ["@packages/i18n"],
     "experiments": {
       "typedRoutes": true
     },

@@ -7,6 +7,7 @@ const config = getDefaultConfig(__dirname);
 config.watchFolders = [
   // Корневая папка общего монорепозитория — путь к packages/ui
   path.resolve(__dirname, "../../packages/ui"),
+  path.resolve(__dirname, "../../packages/i18n"),
   path.resolve(__dirname, "../../packages/backend/convex/_generated")
 ];
 
