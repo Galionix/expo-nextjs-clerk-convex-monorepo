@@ -21,9 +21,15 @@ const createTokenCache = (): TokenCache => {
     },
     saveToken: (key: string, token: string) => {
       return SecureStore.setItemAsync(key, token)
-      },
+    },
+    clearToken: async (key: string) => {
+      console.log('deleting: ', key)
+      await SecureStore.deleteItemAsync(key)
+      return null
+    }
     // erase: () => SecureStore.deleteItemAsync('__clerk_client_jwt')
   }
+
 }
 
 // SecureStore is not supported on the web

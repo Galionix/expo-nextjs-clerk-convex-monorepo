@@ -1,14 +1,17 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { useSignUp } from "@clerk/clerk-expo";
+import { useSignIn, useSignUp } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { Surface } from "@/components/ui/Surface";
 import { P } from "@/components/ui/Text";
 import { TextInput } from "react-native-paper";
 import { Button } from "@/components/ui/Button";
 
+
+
 export default function SignUpScreen() {
-  const { isLoaded, signUp, setActive } = useSignUp();
+  const { isLoaded, signUp, setActive,  } = useSignUp();
+  // useSignIn
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = React.useState("");
@@ -39,37 +42,37 @@ export default function SignUpScreen() {
       console.error(JSON.stringify(err, null, 2));
     }
   };
-  const onSignUpGooglePress = async () => {
-    if (!isLoaded) return;
+  // const onSignUpGooglePress = async () => {
+  //   if (!isLoaded) return;
 
-    // Start sign-up process using email and password provided
-    try {
-        const resource = await signUp.create({
-            strategy: 'oauth_google',
-            redirectUrl: '/login'
-        // emailAddress,
-        // password,
-      });
+  //   // Start sign-up process using email and password provided
+  //   try {
+  //       const resource = await signUp.create({
+  //           strategy: 'oauth_google',
+  //           redirectUrl: '/login'
+  //       // emailAddress,
+  //       // password,
+  //     });
 
-        resource.prepareVerification({
-            strategy: 'oauth_google'
-        })
-        // await signUp.authenticateWithRedirect({
-        //     // strategy: 'oauth_google',
-        //     redirectUrl: ''
-        // })
-      // Send user an email with verification code
-    //   await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+  //       resource.prepareVerification({
+  //           strategy: 'oauth_google'
+  //       })
+  //       // await signUp.authenticateWithRedirect({
+  //       //     // strategy: 'oauth_google',
+  //       //     redirectUrl: ''
+  //       // })
+  //     // Send user an email with verification code
+  //   //   await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
-      // Set 'pendingVerification' to true to display second form
-      // and capture OTP code
-    //   setPendingVerification(true);
-    } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
-      console.error(JSON.stringify(err, null, 2));
-    }
-  };
+  //     // Set 'pendingVerification' to true to display second form
+  //     // and capture OTP code
+  //   //   setPendingVerification(true);
+  //   } catch (err) {
+  //     // See https://clerk.com/docs/custom-flows/error-handling
+  //     // for more info on error handling
+  //     console.error(JSON.stringify(err, null, 2));
+  //   }
+  // };
 
   // Handle submission of verification form
   const onVerifyPress = async () => {
@@ -137,7 +140,7 @@ export default function SignUpScreen() {
           onChangeText={(password) => setPassword(password)}
         />
         <Button onPress={onSignUpPress}> Continue</Button>
-        <Button onPress={onSignUpGooglePress}> Continue with google</Button>
+        {/* <Button onPress={onSignUpGooglePress}> Continue with google</Button> */}
 
       </View>
     </Surface>

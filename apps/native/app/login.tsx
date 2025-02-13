@@ -18,98 +18,37 @@ import * as Linking from "expo-linking";
 import { Button } from "@/components/ui/Button";
 import { H1, P } from "@/components/ui/Text";
 import { Surface } from "@/components/ui/Surface";
-
-export const useWarmUpBrowser = () => {
-  useEffect(() => {
-    // Preloads the browser for Android devices to reduce authentication load time
-    // See: https://docs.expo.dev/guides/authentication/#improving-user-experience
-    void WebBrowser.warmUpAsync();
-    return () => {
-      // Cleanup: closes browser when component unmounts
-      void WebBrowser.coolDownAsync();
-    };
-  }, []);
-};
-
-// Handle any pending authentication sessions
-WebBrowser.maybeCompleteAuthSession();
+import { AuthButtons } from "@/components/ui/authButtons";
+import { useTheme } from "react-native-paper";
+import { useToast } from '@/components/Toast/Toast';
 
 const LoginScreen = () => {
-  const auth = useAuth();
-  const [authState, setAuthState] = React.useState({
-    hello: "world",
-  });
-  const { startOAuthFlow: startGoogle } = useOAuth({
-    strategy: "oauth_google",
-  });
-  const { startOAuthFlow: startApple } = useOAuth({ strategy: "oauth_apple" });
-  useWarmUpBrowser();
+  const toaster = useToast();
 
+  const auth = useAuth();
   useEffect(() => {
     if (auth.sessionId) {
       router.replace("/notesDashboard");
     }
   }, [auth, auth.sessionId]);
+
   useEffect(() => {
-    // Preloads the browser for Android devices to reduce authentication load time
-    // See: https://docs.expo.dev/guides/authentication/#improving-user-experience
-    void WebBrowser.warmUpAsync();
-    return () => {
-      // Cleanup: closes browser when component unmounts
-      void WebBrowser.coolDownAsync();
-    };
+    toaster.show({
+      message: "Login successful",
+
+    });
   }, []);
-  const onPress = async (authType: string) => {
-    try {
-      if (authType === "google") {
-        const {
-          createdSessionId,
-          signIn,
-          signUp,
-          setActive,
-          authSessionResult,
-        } = await startGoogle({
-          redirectUrl: Linking.createURL("/login", { scheme: "myapp" }),
-        });
-        if (createdSessionId) {
-          setActive!({ session: createdSessionId });
-        }
-      } else if (authType === "apple") {
-        const {
-          createdSessionId,
-          signIn,
-          signUp,
-          setActive,
-          authSessionResult,
-        } = await startApple({
-          redirectUrl: Linking.createURL("/login", { scheme: "myapp" }),
-        });
-        if (createdSessionId) {
-          setActive!({ session: createdSessionId });
-        }
-      }
-    } catch (err) {
-      console.error("OAuth error", err);
-    }
-  };
+
   return (
     <Surface>
       <View style={styles.root}>
         <View style={styles.viewStyles}>
           <H1>Log in to your account</H1>
-          <Button
-          onPress={() => onPress("google")}
-          icon="google">Continue with Google</Button>
-          <Button
-          onPress={() => onPress("apple")}
-          icon="apple">Continue with Apple</Button>
+          <AuthButtons />
         </View>
         <View style={styles.signupContainer}>
-          <P>Don’t have an account? </P>
-          <P
-            onPress={() => router.push("/(auth)/sign-up")}
-            highlight
-          >
+          <P>Sign up using email? </P>
+          <P onPress={() => router.push("/(auth)/sign-up")} highlight>
             Sign up here.
           </P>
         </View>
@@ -120,15 +59,12 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
   viewStyles: {
-    // borderColor: "red",
-    // borderStyle: "solid",
-    // borderWidth: 1,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
 
     flex: 1,
-    gap: 10
+    gap: 10,
   },
   root: {
     flex: 1,
@@ -136,16 +72,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
     padding: 20,
-
-    // borderColor: "red",
-    // borderStyle: "solid",
-    // borderWidth: 1,
   },
 
   signupContainer: {
-    // borderColor: "red",
-    // borderStyle: "solid",
-    // borderWidth: 1,
     marginTop: "auto",
     flexDirection: "row",
   },

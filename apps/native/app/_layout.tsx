@@ -1,4 +1,4 @@
-import { PaperProvider } from "react-native-paper";
+import { PaperProvider, useTheme } from "react-native-paper";
 import { Stack } from "expo-router";
 import { View, StatusBar, Platform, useColorScheme } from "react-native";
 import { useFonts } from "expo-font";
@@ -9,8 +9,13 @@ import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
 import { StyleSheet } from "react-native";
 import { Surface } from "@/components/ui/Surface";
 import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
-import { tokenCache } from "@/cache";
-import { P } from '@/components/ui/Text';
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+} from "react-native-safe-area-context";
+
+import { P } from "@/components/ui/Text";
+import { ToastProvider } from '@/components/Toast/Toast';
 // import { myColor } from '@packages/ui';
 export default function RootLayout() {
   // Отключаем логи Expo (как в старом App.tsx)
@@ -46,34 +51,48 @@ export default function RootLayout() {
     Platform.OS === "ios" ? 50 : StatusBar.currentHeight;
 
   return (
-    // <ClerkProvider tokenCache={tokenCache}>
-    <ConvexClientProvider>
-      <ClerkLoaded>
-        <PaperProvider theme={paperTheme}>
-          <Surface>
-            {/* Статус-бар */}
-            <View
-              style={{
-                height: STATUS_BAR_HEIGHT,
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <ConvexClientProvider>
+        <ClerkLoaded>
+          <PaperProvider theme={paperTheme}>
+            <ToastProvider overrides={{
+              position: "middle",
+              type: "normal",
+              messageContainerStyle: {
+                width: "auto",
                 backgroundColor: paperTheme.colors.background,
-              }}
-            >
-              <StatusBar
-                translucent
-                backgroundColor={paperTheme.colors.background}
-                barStyle="light-content"
-              />
-            </View>
-            {/* Expo Router автоматически подключит роутинг */}
-            {/* <Stack /> */}
-            <Stack screenOptions={{ headerShown: false }} />
-            {/* <Stack>
-          <Stack.Screen name="notesDashboard" options={{ headerShown: false }} />
-          </Stack> */}
-          </Surface>
-        </PaperProvider>
-      </ClerkLoaded>
-    </ConvexClientProvider>
-    // </ClerkProvider>
+
+              },
+              messageStyle: {
+                color: paperTheme.colors.onBackground,
+                width: 'auto',
+              },
+              snackbarStyle: {
+                width: "auto",
+                backgroundColor: paperTheme.colors.background,
+              },
+
+             }}>
+              <Surface>
+                {/* Статус-бар */}
+                <View
+                  style={{
+                    height: STATUS_BAR_HEIGHT,
+                    backgroundColor: paperTheme.colors.background,
+                  }}
+                >
+                  <StatusBar
+                    translucent
+                    backgroundColor={paperTheme.colors.background}
+                    barStyle="light-content"
+                  />
+                </View>
+                <Stack screenOptions={{ headerShown: false }} />
+              </Surface>
+            </ToastProvider>
+          </PaperProvider>
+        </ClerkLoaded>
+      </ConvexClientProvider>
+    </SafeAreaProvider>
   );
 }

@@ -25,6 +25,7 @@ import { AnimatedFAB } from "react-native-paper";
 import { debugStyle } from "@/constants/utils";
 import { Button } from "@/components/ui/Button";
 import * as SecureStore from 'expo-secure-store'
+import { tokenCache } from "@/cache";
 
 // type NoteType = ReturnType<typeof api.notes.getNotes>
 const NotesDashboardScreen = () => {
@@ -152,7 +153,7 @@ const NotesDashboardScreen = () => {
       </AnimatedFAB> */}
       </SafeAreaView>
       <Button onPress={async () => {
-        await SecureStore.deleteItemAsync('__clerk_client_jwt')
+        await tokenCache.clearToken('__clerk_client_jwt')
         auth.signOut()
       }}>Sign Out</Button>
       <AnimatedFAB
