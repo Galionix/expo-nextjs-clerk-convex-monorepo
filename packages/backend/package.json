@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@lemonsqueezy/lemonsqueezy.js": "^4.0.0",
     "convex": "^1.13.0",
     "openai": "^4.45.0"
   }

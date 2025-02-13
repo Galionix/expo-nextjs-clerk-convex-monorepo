@@ -8,7 +8,8 @@
   "user": {
     "signUpUsingEmail": "Зареєструйтесь за допомогою електронної пошти?",
     "signOut": "Виходити",
-    "settings": "Налаштування"
+    "settings": "Налаштування",
+    "subscriptionsManagem": "Subscriptions Management"
   },
   "auth": {
     "signUpHere": "Зареєструйтесь тут.",
@@ -17,5 +18,19 @@
   },
   "dashboard": {
     "yourNotes": "Ваші замітки"
+  },
+  "payment": {
+    "selectYourPlan": "Виберіть свій план",
+    "noProductsAvailable": "Немає продуктів",
+    "subscribe": "Підписатися",
+    "subscribed": "Підписаний",
+    "ActiveSubscription": "Активна підписка",
+    "unsubscribe": "Unsubscribe",
+    "cancel": "Скасувати",
+    "confirmCancel": "Підтвердьте Скасувати",
+    "wereSadToSeeYouGoYou": "Нам сумно бачити, як ти їдеш! Ваша підписка залишатиметься активною до кінця періоду виставлення рахунків. Якщо ви передумаєте, ви завжди можете переписатись у будь -який час.",
+    "cancelSubscriptionFo": "Скасувати підписку на:",
+    "cancelled": "Скасований",
+    "validUntil": "Дійсне до:"
   }
 }

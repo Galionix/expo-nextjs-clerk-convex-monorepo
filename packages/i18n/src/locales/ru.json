@@ -8,7 +8,8 @@
   "user": {
     "signUpUsingEmail": "Зарегистрироваться с помощью электронной почты?",
     "signOut": "Выход",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "subscriptionsManagem": "Subscriptions Management"
   },
   "auth": {
     "signUpHere": "Зарегистрируйтесь здесь.",
@@ -17,5 +18,19 @@
   },
   "dashboard": {
     "yourNotes": "Ваши заметки"
+  },
+  "payment": {
+    "selectYourPlan": "Выберите свой план",
+    "noProductsAvailable": "Нет продуктов",
+    "subscribe": "Подписаться",
+    "subscribed": "Подписано",
+    "ActiveSubscription": "Активная подписка",
+    "unsubscribe": "Unsubscribe",
+    "cancel": "Отмена",
+    "confirmCancel": "Подтвердите отмену",
+    "wereSadToSeeYouGoYou": "Нам грустно видеть, как ты ушел! Ваша подписка останется активной до конца периода выставления счетов. Если вы передумаете, вы всегда можете повторно подписаться в любое время.",
+    "cancelSubscriptionFo": "Отменить подписку на:",
+    "cancelled": "Отменен",
+    "validUntil": "Действительно до:"
   }
 }

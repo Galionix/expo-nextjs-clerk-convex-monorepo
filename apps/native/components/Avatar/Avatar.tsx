@@ -4,6 +4,7 @@ import { useUser, useAuth } from "@clerk/clerk-expo";
 import { Avatar as PaperAvatar, Menu, Button } from "react-native-paper";
 import { tokenCache } from "@/cache";
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'expo-router';
 
 type AvatarProps = {
   menuStyle?: StyleProp<ViewStyle>;
@@ -11,6 +12,8 @@ type AvatarProps = {
 
 const defaultMenuStyle = { transform: [{ translateY: 40 }] };
 export const Avatar = ({ menuStyle = defaultMenuStyle }: AvatarProps) => {
+  const router = useRouter();
+
   const auth = useAuth();
   const [visible, setVisible] = useState(false);
 //   const { signOut } = useAuth();
@@ -41,11 +44,19 @@ export const Avatar = ({ menuStyle = defaultMenuStyle }: AvatarProps) => {
         }
         style={menuStyle} // Смещение вниз
       >
-        <Menu.Item
+        {/* <Menu.Item
           key="setting"
           onPress={() => console.log("Открываем настройки")}
           title={t('user.settings')}
-        />
+        /> */}
+        <Menu.Item
+          key='subscriptions'
+          title={t('user.subscriptionsManagem')}
+          onPress={() => {
+            setVisible(false)
+            router.push("/SubscriptionScreen")
+          }}
+        ></Menu.Item>
         <Menu.Item key="exit" onPress={() => onExit()} title={t('user.signOut')} />
       </Menu>
     </View>

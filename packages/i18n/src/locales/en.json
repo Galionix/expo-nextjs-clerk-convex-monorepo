@@ -8,7 +8,8 @@
   "user": {
     "signUpUsingEmail": "Sign up using email?",
     "signOut": "Sign Out",
-    "settings": "Settings"
+    "settings": "Settings",
+    "subscriptionsManagem": "Subscriptions Management"
   },
   "auth": {
     "signUpHere": "Sign up here.",
@@ -17,5 +18,19 @@
   },
   "dashboard": {
     "yourNotes": "Your Notes"
+  },
+  "payment": {
+    "selectYourPlan": "Select your plan",
+    "noProductsAvailable": "No products available",
+    "subscribe": "Subscribe",
+    "subscribed": "Subscribed",
+    "ActiveSubscription": "Active Subscription",
+    "unsubscribe": "Unsubscribe",
+    "cancel": "Cancel",
+    "confirmCancel": "Confirm cancel",
+    "wereSadToSeeYouGoYou": "We're sad to see you go! Your subscription will remain active until the end of the billing period. If you change your mind, you can always resubscribe anytime.",
+    "cancelSubscriptionFo": "Cancel subscription for:",
+    "cancelled": "Cancelled",
+    "validUntil": "Valid until:"
   }
 }

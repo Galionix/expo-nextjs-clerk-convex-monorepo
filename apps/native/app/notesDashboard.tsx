@@ -16,7 +16,7 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { api } from "@packages/backend/convex/_generated/api";
-import { useQuery } from "convex/react";
+import { useQuery, useAction } from "convex/react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Surface } from "@/components/ui/Surface";
 import { P } from "@/components/ui/Text";
@@ -50,6 +50,8 @@ const NotesDashboardScreen = () => {
   const firstName = user?.user?.firstName;
 
   const allNotes = useQuery(api.notes.getNotes);
+  const wtfProducts = useAction(api.lemonsqueezy.getLemonProducts);
+  console.log('wtfProducts: ', wtfProducts);
   console.log("allNotes: ", allNotes);
   const [search, setSearch] = useState("");
 
@@ -135,6 +137,15 @@ const NotesDashboardScreen = () => {
           </ScrollView>
         )}
       </SafeAreaView>
+      <Button
+        onPress={() => router.push("/SubscriptionScreen")}
+        // onPress={async () => {
+        //   const res = await wtfProducts();
+        //   console.log("res: ", res);
+        // }}
+      >
+        Emit products
+      </Button>
 
       <AnimatedFAB
         icon={"plus"}
