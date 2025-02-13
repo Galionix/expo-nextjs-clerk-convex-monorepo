@@ -39,18 +39,24 @@ const LoginScreen = () => {
 
     });
   }, []);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <Surface>
       <View style={styles.root}>
         <View style={styles.viewStyles}>
-          <H1>Log in to your account</H1>
           <H1>{t("common.welcome")}</H1>
+          <H1>{t('auth.logInToYourAccount')}</H1>
           <AuthButtons />
         </View>
         <View style={styles.signupContainer}>
-          <P>Sign up using email? </P>
-          <P onPress={() => router.push("/(auth)/sign-up")} highlight>
+          <P
+                        style={{
+                          maxWidth: 200
+                        }}
+          >{t('auth.signUpUsingEmail')}</P>
+          <P
+
+            onPress={() => router.push("/(auth)/sign-up")} highlight>
           {t('auth.signUpHere')}
           </P>
         </View>
@@ -78,7 +84,9 @@ const styles = StyleSheet.create({
 
   signupContainer: {
     marginTop: "auto",
-    flexDirection: "row",
+    flexDirection: "column",
+    alignItems: 'center',
+    textAlign: 'center'
   },
 });
 

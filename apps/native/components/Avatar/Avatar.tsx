@@ -44,7 +44,7 @@ export const Avatar = ({ menuStyle = defaultMenuStyle }: AvatarProps) => {
         <Menu.Item
           key="setting"
           onPress={() => console.log("Открываем настройки")}
-          title="Настройки"
+          title={t('user.settings')}
         />
         <Menu.Item key="exit" onPress={() => onExit()} title={t('user.signOut')} />
       </Menu>

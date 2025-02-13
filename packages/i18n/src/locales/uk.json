@@ -6,9 +6,16 @@
     "continueWithGoogle": "Продовжуйте з Google"
   },
   "user": {
-    "signUpUsingEmail": "Зареєструйтесь за допомогою електронної пошти?"
+    "signUpUsingEmail": "Зареєструйтесь за допомогою електронної пошти?",
+    "signOut": "Виходити",
+    "settings": "Налаштування"
   },
   "auth": {
-    "signUpHere": "Зареєструйтесь тут."
+    "signUpHere": "Зареєструйтесь тут.",
+    "logInToYourAccount": "Увійдіть до свого облікового запису",
+    "signUpUsingEmail": "Зареєструйтесь за допомогою електронної пошти?"
+  },
+  "dashboard": {
+    "yourNotes": "Ваші замітки"
   }
 }

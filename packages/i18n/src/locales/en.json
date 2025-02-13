@@ -6,9 +6,16 @@
     "continueWithGoogle": "Continue with Google"
   },
   "user": {
-    "signUpUsingEmail": "Sign up using email?"
+    "signUpUsingEmail": "Sign up using email?",
+    "signOut": "Sign Out",
+    "settings": "Settings"
   },
   "auth": {
-    "signUpHere": "Sign up here."
+    "signUpHere": "Sign up here.",
+    "logInToYourAccount": "Log in to your account",
+    "signUpUsingEmail": "Sign up using email?"
+  },
+  "dashboard": {
+    "yourNotes": "Your Notes"
   }
 }

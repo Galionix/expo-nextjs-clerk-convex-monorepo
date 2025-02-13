@@ -24,15 +24,16 @@ import { TextInput } from "react-native-paper";
 import { AnimatedFAB } from "react-native-paper";
 import { debugStyle } from "@/constants/utils";
 import { Button } from "@/components/ui/Button";
-import * as SecureStore from 'expo-secure-store'
-import { Avatar } from '@/components/Avatar/Avatar';
+import * as SecureStore from "expo-secure-store";
+import { Avatar } from "@/components/Avatar/Avatar";
+import { useTranslation } from "react-i18next";
 
 // type NoteType = ReturnType<typeof api.notes.getNotes>
 const NotesDashboardScreen = () => {
   const router = useRouter();
   const auth = useAuth();
   const [isExtended, setIsExtended] = React.useState(true);
-
+  const { t } = useTranslation();
   const isIOS = Platform.OS === "ios";
 
   const onScroll = ({ nativeEvent }) => {
@@ -97,7 +98,7 @@ const NotesDashboardScreen = () => {
         <View style={styles.yourNotesContainer}>
           {/* @ts-ignore, for css purposes */}
           <Image style={styles.avatarSmall} />
-          <P>Your Notes</P>
+          <P>{t("dashboard.yourNotes")}</P>
           <Avatar />
           {/* {imageUrl ? (
             // <Image style={styles.avatarSmall} source={{ uri: imageUrl }} />
@@ -132,40 +133,17 @@ const NotesDashboardScreen = () => {
               <P key={item._id}>{item.title}</P>
             ))}
           </ScrollView>
-          // <FlatList
-          //   data={finalNotes}
-          //   renderItem={renderItem}
-          //   keyExtractor={(item) => item._id}
-          //   style={styles.notesList}
-          //   contentContainerStyle={{
-          //     marginTop: 19,
-          //     borderTopWidth: 0.5,
-          //     borderTopColor: "rgba(0, 0, 0, 0.59)",
-          //   }}
-          // />
         )}
-
-        {/* <AnimatedFAB
-        onPress={() => router.push("/createNote")}
-        style={styles.newNoteButton}
-      >
-        <AntDesign name="pluscircle" size={20} color="#fff" />
-        <P style={styles.newNoteButtonText}>Create a New Note</P>
-      </AnimatedFAB> */}
       </SafeAreaView>
-      <Button onPress={async () => {
 
-      }}>Sign Out</Button>
       <AnimatedFAB
         icon={"plus"}
         label={"Label"}
         extended={false}
         onPress={() => router.push("/createNote")}
-        // visible={visible}
         animateFrom={"right"}
         iconMode={"static"}
         style={styles.fab}
-        // style={[styles.fabStyle, style, fabStyle]}
       />
     </Surface>
   );
