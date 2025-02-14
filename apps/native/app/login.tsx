@@ -29,7 +29,6 @@ import { useToast } from "@/components/Toast/Toast";
 import { useTranslation } from "react-i18next";
 import { api } from "@packages/backend/convex/_generated/api";
 import { useQuery, useAction, useMutation } from "convex/react";
-import { lemonSqueezyStoreId } from "@packages/ui";
 import { useRegisterCustomer } from '@/hooks/registerCustomer';
 
 const LoginScreen = () => {

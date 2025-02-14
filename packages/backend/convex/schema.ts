@@ -8,8 +8,10 @@ export default defineSchema({
     content: v.string(),
     summary: v.optional(v.string()),
   }),
-  lemonUserId: defineTable({
-    userId: v.string(),
-    lemonId: v.string()
-  })
+  users: defineTable({
+    userId: v.string(), // ID из Clerk
+    email: v.string(),
+    name: v.optional(v.string()),
+    lemonSqueezyId: v.optional(v.string()), // ID из LemonSqueezy
+  }).index("by_userId", ["userId"]),
 });
