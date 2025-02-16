@@ -16,8 +16,11 @@ import {
 } from "react-native-safe-area-context";
 import "@packages/i18n"; // Глобальная инициализация
 import { P } from "@/components/ui/Text";
-import { ToastProvider } from '@/components/Toast/Toast';
+import { ToastProvider } from "@/components/Toast/Toast";
 import { useTranslation } from "react-i18next";
+import { Provider } from "react-redux";
+import { store } from "../store";
+
 // import { myColor } from '@packages/ui';
 export default function RootLayout() {
   // Отключаем логи Expo (как в старом App.tsx)
@@ -54,47 +57,49 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <ConvexClientProvider>
-        <ClerkLoaded>
-          <PaperProvider theme={paperTheme}>
-            <ToastProvider overrides={{
-              position: "middle",
-              type: "normal",
-              messageContainerStyle: {
-                width: "auto",
-                backgroundColor: paperTheme.colors.background,
-
-              },
-              messageStyle: {
-                color: paperTheme.colors.onBackground,
-                width: 'auto',
-              },
-              snackbarStyle: {
-                width: "auto",
-                backgroundColor: paperTheme.colors.background,
-              },
-
-             }}>
-              <Surface>
-                {/* Статус-бар */}
-                <View
-                  style={{
-                    height: STATUS_BAR_HEIGHT,
+      <Provider store={store}>
+        <ConvexClientProvider>
+          <ClerkLoaded>
+            <PaperProvider theme={paperTheme}>
+              <ToastProvider
+                overrides={{
+                  position: "middle",
+                  type: "normal",
+                  messageContainerStyle: {
+                    width: "auto",
                     backgroundColor: paperTheme.colors.background,
-                  }}
-                >
-                  <StatusBar
-                    translucent
-                    backgroundColor={paperTheme.colors.background}
-                    barStyle="light-content"
-                  />
-                </View>
-                <Stack screenOptions={{ headerShown: false }} />
-              </Surface>
-            </ToastProvider>
-          </PaperProvider>
-        </ClerkLoaded>
-      </ConvexClientProvider>
+                  },
+                  messageStyle: {
+                    color: paperTheme.colors.onBackground,
+                    width: "auto",
+                  },
+                  snackbarStyle: {
+                    width: "auto",
+                    backgroundColor: paperTheme.colors.background,
+                  },
+                }}
+              >
+                <Surface>
+                  {/* Статус-бар */}
+                  <View
+                    style={{
+                      height: STATUS_BAR_HEIGHT,
+                      backgroundColor: paperTheme.colors.background,
+                    }}
+                  >
+                    <StatusBar
+                      translucent
+                      backgroundColor={paperTheme.colors.background}
+                      barStyle="light-content"
+                    />
+                  </View>
+                  <Stack screenOptions={{ headerShown: false }} />
+                </Surface>
+              </ToastProvider>
+            </PaperProvider>
+          </ClerkLoaded>
+        </ConvexClientProvider>
+      </Provider>
     </SafeAreaProvider>
   );
 }

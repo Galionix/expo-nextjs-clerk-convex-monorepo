@@ -3,8 +3,10 @@ import { StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
 import { useUser, useAuth } from "@clerk/clerk-expo";
 import { Avatar as PaperAvatar, Menu, Button } from "react-native-paper";
 import { tokenCache } from "@/cache";
-import { useTranslation } from 'react-i18next';
-import { useRouter } from 'expo-router';
+import { useTranslation } from "react-i18next";
+import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
+import { setLemonId } from "@/store/userSlice";
 
 type AvatarProps = {
   menuStyle?: StyleProp<ViewStyle>;
@@ -13,21 +15,23 @@ type AvatarProps = {
 const defaultMenuStyle = { transform: [{ translateY: 40 }] };
 export const Avatar = ({ menuStyle = defaultMenuStyle }: AvatarProps) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const auth = useAuth();
   const [visible, setVisible] = useState(false);
-//   const { signOut } = useAuth();
+  //   const { signOut } = useAuth();
   const user = useUser();
-    const imageUrl = user?.user?.imageUrl;
-    const { t } = useTranslation();
+  const imageUrl = user?.user?.imageUrl;
+  const { t } = useTranslation();
 
-    const onExit = () => {
-        // tokenCache && "clearToken" in tokenCache &&
-        auth.signOut()
-        if (tokenCache && tokenCache.clearToken) {
-            tokenCache.clearToken('__clerk_client_jwt')
-        }
+  const onExit = () => {
+    dispatch(setLemonId(null));
+    // tokenCache && "clearToken" in tokenCache &&
+    auth.signOut();
+    if (tokenCache && tokenCache.clearToken) {
+      tokenCache.clearToken("__clerk_client_jwt");
     }
+  };
   return (
     <View
       style={{ position: "relative" }}
@@ -50,14 +54,18 @@ export const Avatar = ({ menuStyle = defaultMenuStyle }: AvatarProps) => {
           title={t('user.settings')}
         /> */}
         <Menu.Item
-          key='subscriptions'
-          title={t('user.subscriptionsManagem')}
+          key="subscriptions"
+          title={t("user.subscriptionsManagem")}
           onPress={() => {
-            setVisible(false)
-            router.push("/SubscriptionScreen")
+            setVisible(false);
+            router.push("/SubscriptionScreen");
           }}
         ></Menu.Item>
-        <Menu.Item key="exit" onPress={() => onExit()} title={t('user.signOut')} />
+        <Menu.Item
+          key="exit"
+          onPress={() => onExit()}
+          title={t("user.signOut")}
+        />
       </Menu>
     </View>
   );

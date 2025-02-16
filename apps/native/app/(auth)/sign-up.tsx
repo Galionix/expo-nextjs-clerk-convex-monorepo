@@ -6,7 +6,7 @@ import { Surface } from "@/components/ui/Surface";
 import { P } from "@/components/ui/Text";
 import { TextInput } from "react-native-paper";
 import { Button } from "@/components/ui/Button";
-import { useRegisterCustomer } from '@/hooks/registerCustomer';
+// import { useRegisterCustomer } from '@/hooks/registerCustomer';
 import { useToast } from '@/components/Toast/Toast';
 
 
@@ -20,7 +20,7 @@ export default function SignUpScreen() {
   const [password, setPassword] = React.useState("");
   const [pendingVerification, setPendingVerification] = React.useState(false);
   const [code, setCode] = React.useState("");
-  useRegisterCustomer();
+  // useRegisterCustomer();
   const toaster = useToast();
 
   // Handle submission of sign-up form

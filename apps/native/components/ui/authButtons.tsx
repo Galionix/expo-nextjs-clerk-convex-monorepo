@@ -43,13 +43,6 @@ export const AuthButtons = () => {
         } = await startGoogle({
           redirectUrl: Linking.createURL("/login", { scheme: "myapp" }),
         });
-        // console.log({
-        //   // createdSessionId,
-        //   // signIn,
-        //   // signUp,
-        //   // setActive,
-        //   authSessionResult,
-        // })
         if (createdSessionId) {
           setActive!({ session: createdSessionId });
         }

@@ -27,6 +27,8 @@ import { Button } from "@/components/ui/Button";
 import * as SecureStore from "expo-secure-store";
 import { Avatar } from "@/components/Avatar/Avatar";
 import { useTranslation } from "react-i18next";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 // type NoteType = ReturnType<typeof api.notes.getNotes>
 const NotesDashboardScreen = () => {
@@ -35,6 +37,8 @@ const NotesDashboardScreen = () => {
   const [isExtended, setIsExtended] = React.useState(true);
   const { t } = useTranslation();
   const isIOS = Platform.OS === "ios";
+  const lemonId = useSelector((state: RootState) => state.user.lemonId);
+  console.log('lemonId: ', lemonId);
 
   const onScroll = ({ nativeEvent }) => {
     const currentScrollPosition =
@@ -50,7 +54,7 @@ const NotesDashboardScreen = () => {
   const firstName = user?.user?.firstName;
 
   const allNotes = useQuery(api.notes.getNotes);
-  const wtfProducts = useAction(api.lemonsqueezy.getLemonProducts);
+  // const wtfProducts = useAction(api.lemonsqueezy.getLemonProducts);
   // console.log('wtfProducts: ', wtfProducts);
   // console.log("allNotes: ", allNotes);
   const [search, setSearch] = useState("");
@@ -63,11 +67,18 @@ const NotesDashboardScreen = () => {
             note.content.toLowerCase().includes(search.toLowerCase()),
         )
       : allNotes;
+  // useEffect(() => {
+  //   if (!user.isSignedIn) {
+  //     router.replace("/login");
+  //   }
+  // }, [user]);
+
   useEffect(() => {
-    if (!user.isSignedIn) {
-      router.replace("/login");
+    if (auth.isLoaded && !auth.isSignedIn) {
+      router.push("/login");
     }
-  }, [user]);
+  }, [auth.isLoaded, auth.isSignedIn]);
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>

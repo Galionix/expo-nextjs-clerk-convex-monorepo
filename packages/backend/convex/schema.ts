@@ -9,9 +9,9 @@ export default defineSchema({
     summary: v.optional(v.string()),
   }),
   users: defineTable({
-    userId: v.string(), // ID из Clerk
-    email: v.string(),
-    name: v.optional(v.string()),
-    lemonSqueezyId: v.optional(v.string()), // ID из LemonSqueezy
-  }).index("by_userId", ["userId"]),
+    name: v.string(),
+    tokenIdentifier: v.string(),
+    lemonId: v.string(),
+    email: v.string()
+  }).index("by_token", ["tokenIdentifier"]),
 });

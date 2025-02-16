@@ -3,7 +3,7 @@ import { Link, useRouter } from 'expo-router'
 // import { Text, TextInput, Button, View } from 'react-native'
 import React from 'react'
 import { Surface } from '@/components/ui/Surface'
-import { useRegisterCustomer } from '@/hooks/registerCustomer'
+// import { useRegisterCustomer } from '@/hooks/registerCustomer'
 import { TextInput } from 'react-native-paper'
 import { Button } from '@/components/ui/Button'
 
@@ -13,7 +13,7 @@ export default function Page() {
 
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
-  useRegisterCustomer()
+  // useRegisterCustomer()
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
     if (!isLoaded) return
