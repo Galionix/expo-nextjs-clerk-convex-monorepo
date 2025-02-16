@@ -7,10 +7,14 @@ import { ListProducts, Subscription } from "@lemonsqueezy/lemonsqueezy.js";
 import { useAction } from "convex/react";
 import { useRouter } from 'expo-router';
 import { formatDate, useFormattedDate } from '../utils/dateUtils';
+import { useSelector } from 'react-redux';
+import { selectActiveSubscriptions } from '@/store/selectors/activeSubscriptions';
+import { openCheckout } from '@/utils/browserUtils';
 
 interface ProductCardProps {
     product: ListProducts["data"][0];
-    subData?: Subscription["data"] | null
+  subData?: Subscription["data"] | null
+  onPress: (url: string) => void
 //   active?: boolean;
 //   cancelled?: boolean;
 //   subscriptionId?: string; // ID подписки для отмены
@@ -18,10 +22,11 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  subData
+  subData,
+  onPress
 }) => {
   const router = useRouter();
-
+  // console.log('activeSubscriptions: ', activeSubscriptions);
   const { t } = useTranslation();
   const unsubscribeAction = useAction(api.lemonsqueezy.cancelLemonSubscription);
 
@@ -69,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )}
         <Button
           mode="contained"
-          onPress={() => Linking.openURL(product.attributes.buy_now_url)}
+          onPress={() => openCheckout(product.attributes.buy_now_url)}
           disabled={!!subData}
         >
           {!!subData ? t("payment.subscribed") : t("payment.subscribe")}

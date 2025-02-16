@@ -13,6 +13,8 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as lemon_getCustomer from "../lemon/getCustomer.js";
+import type * as lemon_getLemonProducts from "../lemon/getLemonProducts.js";
 import type * as lemon2 from "../lemon2.js";
 import type * as lemonsqueezy from "../lemonsqueezy.js";
 import type * as notes from "../notes.js";
@@ -31,6 +33,8 @@ import type * as utils from "../utils.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "lemon/getCustomer": typeof lemon_getCustomer;
+  "lemon/getLemonProducts": typeof lemon_getLemonProducts;
   lemon2: typeof lemon2;
   lemonsqueezy: typeof lemonsqueezy;
   notes: typeof notes;

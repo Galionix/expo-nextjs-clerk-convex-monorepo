@@ -4,6 +4,7 @@ import {
   lemonSqueezySetup,
   createCustomer,
   listCustomers,
+  cancelSubscription
 } from "@lemonsqueezy/lemonsqueezy.js";
 import { lemonSqueezyStoreId } from "@packages/ui";
 // Импортируйте сгенерированные API-функции для работы с БД, например:
@@ -122,5 +123,41 @@ export const registerUserInLemonSqueezy = action({
     // }
 
     return { lemonId };
+  },
+});
+
+export const cancelLemonSubscription = action({
+  args: {
+    subscriptionId: v.string(),
+  },
+  handler: async (ctx, { subscriptionId }) => {
+    const result = lemonSqueezySetup({
+      apiKey: process.env.LEMON_SQUEEZY_API_KEY,
+      onError: (error) => console.error("Lemon Squeezy API Error:", error),
+    });
+    try {
+      const { data, error, statusCode } =
+        await cancelSubscription(subscriptionId);
+
+      if (error) {
+        console.error(
+          "❌ Lemon Squeezy cancelSubscription Error:",
+          error.message,
+        );
+        throw new Error(error.message);
+      }
+
+      console.log(
+        `✅ Lemon Squeezy cancelSubscription (Status: ${statusCode}):`,
+        data,
+      );
+      return data;
+    } catch (error) {
+      console.error(
+        "❌ Failed to fetch cancelSubscription from Lemon Squeezy:",
+        error,
+      );
+      throw new Error("Failed to fetch cancelSubscription from Lemon Squeezy");
+    }
   },
 });
