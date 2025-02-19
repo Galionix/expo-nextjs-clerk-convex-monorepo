@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "build": "eas build --platform android"
+    "build": "eas build --platform android",
+    "eas-build-pre-install": "yarn workspace @packages/ui build"
   },
   "jest": {
     "preset": "jest-expo"
@@ -19,8 +20,6 @@
     "@clerk/clerk-expo": "^2.7.6",
     "@clerk/types": "^4.45.1",
     "@expo/vector-icons": "^14.0.2",
-    "@packages/i18n": "*",
-    "@packages/ui": "*",
     "@pchmn/expo-material3-theme": "^1.3.2",
     "@react-native-async-storage/async-storage": "^2.1.1",
     "@react-navigation/bottom-tabs": "^7.2.0",

@@ -7,7 +7,7 @@
   "module": "esnext",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "node ../../node_modules/typescript/bin/tsc"
   },
   "exports": {
     ".": {
@@ -19,7 +19,7 @@
       "types": "./dist/constants/theme.d.ts"
     }
   },
-  "devDependencies": {
-    "typescript": "latest"
+  "dependencies": {
+    "typescript": "5.7.3"
   }
 }

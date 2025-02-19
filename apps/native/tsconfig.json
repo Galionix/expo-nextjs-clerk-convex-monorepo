@@ -7,7 +7,7 @@
       "@/*": [
         "./*"
       ],
-      "@packages/ui": ["packages/ui/src/index"]
+      "@packages/i18n": ["../../packages/i18n/src/index"]
     }
   },
   "include": [
