@@ -3577,6 +3577,21 @@ babel-preset-current-node-syntax@^1.0.0:
     "@babel/plugin-syntax-private-property-in-object" "^7.14.5"
     "@babel/plugin-syntax-top-level-await" "^7.14.5"
 
+babel-preset-expo@^12.0.9:
+  version "12.0.9"
+  resolved "https://registry.yarnpkg.com/babel-preset-expo/-/babel-preset-expo-12.0.9.tgz#2e40923bab7f92ec7caeff9c5d42e888cf632eb4"
+  integrity sha512-1c+ysrTavT49WgVAj0OX/TEzt1kU2mfPhDaDajstshNHXFKPenMPWSViA/DHrJKVIMwaqr+z3GbUOD9GtKgpdg==
+  dependencies:
+    "@babel/plugin-proposal-decorators" "^7.12.9"
+    "@babel/plugin-transform-export-namespace-from" "^7.22.11"
+    "@babel/plugin-transform-object-rest-spread" "^7.12.13"
+    "@babel/plugin-transform-parameters" "^7.22.15"
+    "@babel/preset-react" "^7.22.15"
+    "@babel/preset-typescript" "^7.23.0"
+    "@react-native/babel-preset" "0.76.7"
+    babel-plugin-react-native-web "~0.19.13"
+    react-refresh "^0.14.2"
+
 babel-preset-expo@~12.0.7:
   version "12.0.7"
   resolved "https://registry.npmjs.org/babel-preset-expo/-/babel-preset-expo-12.0.7.tgz"
@@ -10205,14 +10220,9 @@ typed-array-length@^1.0.7:
     possible-typed-array-names "^1.0.0"
     reflect.getprototypeof "^1.0.6"
 
-typescript@^5.3.3, typescript@^5.4.5:
+typescript@5.7.3, typescript@^5.3.3, typescript@^5.4.5:
   version "5.7.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.7.3.tgz"
-  integrity sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==
-
-typescript@latest:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.3.tgz#919b44a7dbb8583a9b856d162be24a54bf80073e"
   integrity sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==
 
 ua-parser-js@^1.0.35:
