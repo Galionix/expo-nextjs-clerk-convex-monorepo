@@ -17,6 +17,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@packages/backend": "*",
+    "@packages/ui": "*",
     "@clerk/clerk-expo": "^2.7.6",
     "@clerk/types": "^4.45.1",
     "@expo/vector-icons": "^14.0.2",
